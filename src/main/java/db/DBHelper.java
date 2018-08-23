@@ -3,18 +3,23 @@ package db;
 import models.Paddock;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 public class DBHelper {
 
-    private static Session session;
-    private static Transaction transaction;
+    private Session session;
+    private Transaction transaction;
+    private SessionFactory sessionFactory;
 
-    public static void save(Object object) {
-        session = HibernateUtil.getSessionFactory().openSession();
+    public DBHelper(SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
+    }
+
+    public void save(Object object) {
+        session = sessionFactory.openSession();
         try{
             transaction = session.beginTransaction();
             session.save(object);
@@ -30,9 +35,9 @@ public class DBHelper {
         }
     }
 
-    public static List<Paddock> getAllInstances(Class classType) {
+    public List<Paddock> getAllInstances(Class classType) {
         List<Paddock> listOfPaddocks;
-        session = HibernateUtil.getSessionFactory().openSession();
+        session = sessionFactory.openSession();
         try{
             transaction = session.beginTransaction();
             listOfPaddocks = session.createCriteria(classType).list();

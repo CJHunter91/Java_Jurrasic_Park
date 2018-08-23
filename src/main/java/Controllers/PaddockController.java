@@ -15,11 +15,7 @@ import static spark.Spark.get;
 
 public class PaddockController {
 
-    public static void main(String[] args) {
-        DBHelper dbHelper = new DBHelper(HibernateUtil.getSessionFactory());
-        Seeds.seedDb(dbHelper);
-        VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine();
-
+    public PaddockController(DBHelper dbHelper, VelocityTemplateEngine velocityTemplateEngine) {
         get("/paddocks", (request, response) -> {
             Map model = new HashMap();
             List<Paddock> paddocks = dbHelper.getAllInstances(Paddock.class);
@@ -27,10 +23,6 @@ public class PaddockController {
             model.put("paddocks", paddocks);
             return new ModelAndView(model, "/templates/template.vtl");
         }, velocityTemplateEngine);
-    }
-
-    public void testMethod(){
-
     }
 
 }

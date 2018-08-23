@@ -22,4 +22,11 @@ public class PaddockTest {
         paddock.setId(id);
         assertEquals(paddock.getId(), id);
     }
+
+    @Test
+    public void canSetName () {
+        String name = "Velocity Raptor";
+        paddock.setName(name);
+        assertEquals(paddock.getName(), name);
+    }
 }

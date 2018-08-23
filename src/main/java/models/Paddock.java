@@ -11,6 +11,7 @@ public class Paddock {
 
 
     private UUID id;
+    private String name;
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -22,5 +23,14 @@ public class Paddock {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

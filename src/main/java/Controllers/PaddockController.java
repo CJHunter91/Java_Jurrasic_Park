@@ -1,8 +1,6 @@
 package Controllers;
 
 import db.DBHelper;
-import db.HibernateUtil;
-import db.Seeds;
 import models.Paddock;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
@@ -15,14 +13,33 @@ import static spark.Spark.get;
 
 public class PaddockController {
 
+    private String htmlTemplate = "/templates/template.vtl";
+
     public PaddockController(DBHelper dbHelper, VelocityTemplateEngine velocityTemplateEngine) {
+
+
         get("/paddocks", (request, response) -> {
-            Map model = new HashMap();
             List<Paddock> paddocks = dbHelper.getAllInstances(Paddock.class);
-            model.put("template", "/templates/paddocks/paddock_list.vtl");
+
+            Map model = createInitialViewModel("/templates/paddocks/paddock_list.vtl");
             model.put("paddocks", paddocks);
-            return new ModelAndView(model, "/templates/template.vtl");
+
+            return new ModelAndView(model, htmlTemplate);
         }, velocityTemplateEngine);
+
+        get("/paddocks/new", (request, response) -> {
+            Map model = createInitialViewModel("/templates/paddocks/new_paddock.vtl");
+
+            return new ModelAndView(model, htmlTemplate);
+        });
+
+
+    }
+
+    public static Map createInitialViewModel(String routeTemplate){
+        Map model = new HashMap();
+        model.put("template", routeTemplate);
+        return model;
     }
 
 }

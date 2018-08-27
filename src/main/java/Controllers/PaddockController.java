@@ -5,11 +5,10 @@ import models.Paddock;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static spark.Spark.get;
+import static spark.Spark.post;
 
 public class PaddockController {
 
@@ -29,8 +28,15 @@ public class PaddockController {
 
         get("/paddocks/new", (request, response) -> {
             Map model = createInitialViewModel("/templates/paddocks/new_paddock.vtl");
-
+            model.put("formRedirect", "/paddocks");
             return new ModelAndView(model, htmlTemplate);
+        }, velocityTemplateEngine);
+
+        post("/paddocks", (request, response) -> {
+            String paddock_name= request.queryParams("paddock_name");
+
+            response.redirect("/paddocks");
+            return response;
         });
 
 

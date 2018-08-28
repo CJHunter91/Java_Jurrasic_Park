@@ -1,12 +1,11 @@
 package db;
 
 import models.Paddock;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
+import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
+import java.util.UUID;
 
 public class DBHelper {
 
@@ -35,12 +34,28 @@ public class DBHelper {
         }
     }
 
-    public <T> List<T> getAllInstances(Class<T> classType) {
+    public <T> T getInstance(Class classType, UUID id){
+        session = sessionFactory.openSession();
+
+        try{
+            transaction = session.beginTransaction();
+            Criteria criteria = session.createCriteria(classType);
+            criteria.add(Restrictions.eq("id", id));
+            return (T) criteria.uniqueResult();
+        }
+        catch (HibernateException error) {
+            transaction.rollback();
+            error.printStackTrace();
+            throw new Error("Could not get instance from database", error);
+        }
+    }
+
+    public <T> List<T> getAllInstances(Class<T> classInstance) {
         List<T> objectList;
         session = sessionFactory.openSession();
         try{
             transaction = session.beginTransaction();
-            objectList = session.createCriteria(classType).list();
+            objectList = session.createCriteria(classInstance).list();
             return objectList;
         }
         catch (HibernateException error) {

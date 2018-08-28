@@ -13,7 +13,7 @@ public class PaddockTest {
     Paddock paddock;
     @Before
     public void before() {
-        paddock = new Paddock();
+        paddock = new Paddock("Test Paddock");
     }
 
     @Test

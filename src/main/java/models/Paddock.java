@@ -13,6 +13,14 @@ public class Paddock {
     private UUID id;
     private String name;
 
+    public Paddock() {
+
+    }
+
+    public Paddock(String name){
+        this.name = name;
+    }
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator( name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")

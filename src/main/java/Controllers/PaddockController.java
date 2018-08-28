@@ -4,7 +4,9 @@ import db.DBHelper;
 import models.Paddock;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
+import spark.utils.IOUtils;
 
+import java.io.InputStream;
 import java.util.*;
 
 import static spark.Spark.get;
@@ -29,12 +31,14 @@ public class PaddockController {
         get("/paddocks/new", (request, response) -> {
             Map model = createInitialViewModel("/templates/paddocks/new_paddock.vtl");
             model.put("formRedirect", "/paddocks");
+
+
             return new ModelAndView(model, htmlTemplate);
         }, velocityTemplateEngine);
 
         post("/paddocks", (request, response) -> {
-            String paddock_name= request.queryParams("paddock_name");
-
+            String paddockName= request.queryParams("paddock_name");
+            dbHelper.save(new Paddock(paddockName));
             response.redirect("/paddocks");
             return response;
         });

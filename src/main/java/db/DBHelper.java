@@ -35,13 +35,13 @@ public class DBHelper {
         }
     }
 
-    public List<Paddock> getAllInstances(Class classType) {
-        List<Paddock> listOfPaddocks;
+    public <T> List<T> getAllInstances(Class<T> classType) {
+        List<T> objectList;
         session = sessionFactory.openSession();
         try{
             transaction = session.beginTransaction();
-            listOfPaddocks = session.createCriteria(classType).list();
-            return listOfPaddocks;
+            objectList = session.createCriteria(classType).list();
+            return objectList;
         }
         catch (HibernateException error) {
             transaction.rollback();

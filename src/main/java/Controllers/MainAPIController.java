@@ -18,6 +18,7 @@ public class MainAPIController {
         Seeds.seedDb(dbHelper);
 
         new PaddockController(dbHelper, velocityTemplateEngine);
+        new DinosaurController(dbHelper, velocityTemplateEngine);
 
         get("/", (request, response) -> {
             Map model = new HashMap();

@@ -1,0 +1,24 @@
+<a>
+    <button type="button" class="btn btn-primary">New Dino</button>
+</a>
+<table>
+    <tr>
+        <th>
+            Dino Id
+        </th>
+        <th>
+            Species
+        </th>
+    </tr>
+
+    #foreach( $dino in $dinos )
+    <tr>
+        <td>
+            $dino.id
+        </td>
+        <td>
+            $dino.species
+        </td>
+    </tr>
+    #end
+</table>

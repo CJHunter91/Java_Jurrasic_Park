@@ -1,12 +1,12 @@
 package Controllers;
 
+import Config.Config;
+import HelperFunctions.TemplateHelper;
 import db.DBHelper;
 import models.Paddock;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
-import spark.utils.IOUtils;
 
-import java.io.InputStream;
 import java.util.*;
 
 import static spark.Spark.get;
@@ -14,7 +14,7 @@ import static spark.Spark.post;
 
 public class PaddockController {
 
-    private String htmlTemplate = "/templates/template.vtl";
+    private String htmlTemplate = Config.mainHtmlTemplate;
 
     public PaddockController(DBHelper dbHelper, VelocityTemplateEngine velocityTemplateEngine) {
 
@@ -22,14 +22,14 @@ public class PaddockController {
         get("/paddocks", (request, response) -> {
             List<Paddock> paddocks = dbHelper.getAllInstances(Paddock.class);
 
-            Map model = createInitialViewModel("/templates/paddocks/paddock_list.vtl");
+            Map model = TemplateHelper.createInitialViewModel("/templates/paddocks/paddock_list.vtl");
             model.put("paddocks", paddocks);
 
             return new ModelAndView(model, htmlTemplate);
         }, velocityTemplateEngine);
 
         get("/paddocks/new", (request, response) -> {
-            Map model = createInitialViewModel("/templates/paddocks/new_paddock.vtl");
+            Map model = TemplateHelper.createInitialViewModel("/templates/paddocks/new_paddock.vtl");
             model.put("formRedirect", "/paddocks");
 
 
@@ -44,12 +44,6 @@ public class PaddockController {
         });
 
 
-    }
-
-    public static Map createInitialViewModel(String routeTemplate){
-        Map model = new HashMap();
-        model.put("template", routeTemplate);
-        return model;
     }
 
 }

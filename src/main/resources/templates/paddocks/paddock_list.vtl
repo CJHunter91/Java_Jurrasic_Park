@@ -6,12 +6,18 @@
         <th>
             Paddock Id
         </th>
+        <th>
+            Paddock Name
+        </th>
     </tr>
 
     #foreach( $paddock in $paddocks )
         <tr>
             <td>
                 $paddock.id
+            </td>
+            <td>
+                $paddock.name
             </td>
         </tr>
     #end

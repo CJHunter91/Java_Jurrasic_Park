@@ -4,6 +4,7 @@ import Config.Config;
 import HelperFunctions.TemplateHelper;
 import db.DBHelper;
 import models.Dinosaur;
+import models.Paddock;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 
@@ -32,6 +33,15 @@ public class DinosaurController {
 
             List<Dinosaur> dinosaurList = dbHelper.getAllInstances(Dinosaur.class);
             model.put("dinos", dinosaurList);
+
+            return new ModelAndView(model, htmlTemplate);
+        }, velocityTemplateEngine);
+
+        get("/dinosaurs/new", (request, response) -> {
+            Map model = TemplateHelper.createInitialViewModel("templates/dinosaurs/new_dinosaur.vtl");
+
+            List<Paddock> paddockList = dbHelper.getAllInstances(Paddock.class);
+            model.put("paddocks", paddockList);
 
             return new ModelAndView(model, htmlTemplate);
         }, velocityTemplateEngine);

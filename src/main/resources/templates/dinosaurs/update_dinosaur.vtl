@@ -1,8 +1,5 @@
 <form action=$formRedirect method="post">
     <div class="form-group">
-        <label>Dino Species</label>
-        <input type="text" class="form-control" name="species" placeholder="Enter species">
-
         <select name="paddock_id">
             #foreach ($paddock in $paddocks)
             <option value="$paddock.id">$paddock.name</option>

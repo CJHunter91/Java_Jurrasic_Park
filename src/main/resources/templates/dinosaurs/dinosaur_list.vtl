@@ -7,7 +7,13 @@
             Dino Id
         </th>
         <th>
+            Paddock
+        </th>
+        <th>
             Species
+        </th>
+        <th>
+            Hunger Level
         </th>
     </tr>
 
@@ -17,7 +23,19 @@
             $dino.id
         </td>
         <td>
+            $dino.paddock.name
+        </td>
+        <td>
             $dino.species
+        </td>
+        <td>
+            $dino.hunger
+        </td>
+        <td>
+            <a class="btn btn-primary" href="/dinosaurs/$dino.id/feed" role="button">Feed</a>
+        </td>
+        <td>
+            <a class="btn btn-primary" href="/dinosaurs/$dino.id/edit" role="button">Edit</a>
         </td>
     </tr>
     #end

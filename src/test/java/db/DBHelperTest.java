@@ -8,7 +8,6 @@ import static org.mockito.Mockito.*;
 
 import org.hibernate.Transaction;
 import org.junit.*;
-import org.mockito.Mock;
 
 public class DBHelperTest {
     SessionFactory sessionFactory;

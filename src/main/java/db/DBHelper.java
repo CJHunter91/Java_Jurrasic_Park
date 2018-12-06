@@ -34,6 +34,23 @@ public class DBHelper {
         }
     }
 
+    public void update(Object object) {
+        session = sessionFactory.openSession();
+        try{
+            transaction = session.beginTransaction();
+            session.update(object);
+            transaction.commit();
+        }
+        catch (HibernateException error) {
+            transaction.rollback();
+            error.printStackTrace();
+            throw new Error("Could not save object to database", error);
+        }
+        finally {
+            session.close();
+        }
+    }
+
     public <T> T getInstance(Class classType, UUID id){
         session = sessionFactory.openSession();
 

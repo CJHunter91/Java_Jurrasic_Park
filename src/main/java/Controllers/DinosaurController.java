@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
+import static spark.Spark.put;
 
 public class DinosaurController {
 
@@ -48,6 +49,40 @@ public class DinosaurController {
 
             return new ModelAndView(model, htmlTemplate);
         }, velocityTemplateEngine);
+
+        get("/dinosaurs/:id/feed", (request, response) -> {
+            String dinoId = request.params("id");
+            Dinosaur dinosaur = dbHelper.getInstance(Dinosaur.class, UUID.fromString(dinoId));
+
+            dinosaur.feed();
+            dbHelper.update(dinosaur);
+            response.redirect("/dinosaurs");
+            return String.format("Dinosaur %s was successfully fed.", dinosaur.getSpecies());
+        });
+
+        get("/dinosaurs/:id/edit", (request, response) -> {
+            Map model = TemplateHelper.createInitialViewModel("templates/dinosaurs/update_dinosaur.vtl");
+
+            List<Paddock> paddockList = dbHelper.getAllInstances(Paddock.class);
+            model.put("paddocks", paddockList);
+            model.put("formRedirect", "/dinosaurs/" + request.params("id"));
+
+            return new ModelAndView(model, htmlTemplate);
+        }, velocityTemplateEngine);
+
+        post("/dinosaurs/:id", (request, response) -> {
+            String dinoId = request.params("id");
+            Dinosaur dinosaur = dbHelper.getInstance(Dinosaur.class, UUID.fromString(dinoId));
+
+            UUID paddock_id = UUID.fromString(request.queryParams("paddock_id"));
+            Paddock paddock = dbHelper.getInstance(Paddock.class, paddock_id);
+
+            dinosaur.setPaddock(paddock);
+            dbHelper.update(dinosaur);
+
+            response.redirect("/dinosaurs");
+            return "Dinosaur updated";
+        });
 
         post("/dinosaurs", (request, response) -> {
             UUID paddockId = UUID.fromString(request.queryParams("paddock_id"));
